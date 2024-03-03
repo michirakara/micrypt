@@ -19,12 +19,15 @@ fn main() {
         Opt::Caesar {
             mode,
             text,
-            help: _,
+            help,
         } => {
+            if help{
+                todo!("implement help");
+            }
             if mode == "enc" {
                 println!("Result: {}", algorithms::caesar::encrypt(text));
             } else if mode == "dec" {
-                todo!("decryption mode WIP");
+                println!("Result: {}", algorithms::caesar::decrypt(text));
             }
         }
     }
