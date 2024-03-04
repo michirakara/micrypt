@@ -36,13 +36,13 @@ fn main() {
             }
         }
         Opt::Rot { mode, text , key} => {
-            let mut rng: rand::prelude::ThreadRng = rand::thread_rng();
-            let final_key:u8=key.unwrap_or(rng.gen_range(1..26));
-            
             if mode == "enc" {
+                let mut rng: rand::prelude::ThreadRng = rand::thread_rng();
+                let final_key:u8=key.unwrap_or(rng.gen_range(1..26));
+
                 println!("Result: {}", algorithms::rot::encrypt(final_key, text));
             } else if mode == "dec" {
-                println!("Result: {}", algorithms::rot::decrypt(final_key, text));
+                println!("Result: {}", algorithms::rot::decrypt(key.unwrap(), text));
             } else {
                 unimplemented!("error: unavailable mode");
             }
