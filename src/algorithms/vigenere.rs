@@ -1,43 +1,39 @@
-pub fn encrypt(key: String, text: String) -> String {
+pub fn encrypt(key: Vec<u8>, text: Vec<u8>) -> Vec<u8> {
     // key must be all uppercase
-    let mut to_return: String = String::new();
+    let mut to_return: Vec<u8> = Vec::new();
 
     let mut key_index: usize = 0;
-    for chr in text.bytes() {
+    for chr in text {
         if (65..=90).contains(&chr) {
-            let step: u8 = key.chars().nth(key_index).unwrap() as u8 - 65;
-            let encrypted: &str = &(((chr - 65 + step) % 26 + 65) as char).to_string();
-            to_return += encrypted;
+            let step: u8 = key[key_index] - 65;
+            to_return.push((chr - 65 + step) % 26 + 65);
             key_index = (key_index + 1) % key.len();
         } else if (97..=122).contains(&chr) {
-            let step: u8 = key.chars().nth(key_index).unwrap() as u8 - 65;
-            let encrypted: &str = &(((chr - 97 + step) % 26 + 97) as char).to_string();
-            to_return += encrypted;
+            let step: u8 = key[key_index] - 65;
+            to_return.push((chr - 97 + step) % 26 + 97);
             key_index = (key_index + 1) % key.len();
         } else {
-            to_return += &(chr as char).to_string();
+            to_return.push(chr);
         }
     }
     to_return
 }
-pub fn decrypt(key: String, text: String) -> String {
+pub fn decrypt(key: Vec<u8>, text: Vec<u8>) -> Vec<u8> {
     // key must be all uppercase
-    let mut to_return: String = String::new();
+    let mut to_return: Vec<u8> = Vec::new();
 
     let mut key_index: usize = 0;
-    for chr in text.bytes() {
+    for chr in text {
         if (65..=90).contains(&chr) {
-            let step: u8 = key.chars().nth(key_index).unwrap() as u8 - 65;
-            let encrypted: &str = &(((chr - 65 + 26 - step) % 26 + 65) as char).to_string();
-            to_return += encrypted;
+            let step: u8 = key[key_index] - 65;
+            to_return.push((chr - 65 + 26 - step) % 26 + 65);
             key_index = (key_index + 1) % key.len();
         } else if (97..=122).contains(&chr) {
-            let step: u8 = key.chars().nth(key_index).unwrap() as u8 - 65;
-            let encrypted: &str = &(((chr - 97 + 26 - step) % 26 + 97) as char).to_string();
-            to_return += encrypted;
+            let step: u8 = key[key_index] - 65;
+            to_return.push((chr - 97 + 26 - step) % 26 + 97);
             key_index = (key_index + 1) % key.len();
         } else {
-            to_return += &(chr as char).to_string();
+            to_return.push(chr);
         }
     }
     to_return
