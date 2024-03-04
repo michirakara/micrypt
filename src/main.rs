@@ -1,5 +1,6 @@
 mod algorithms;
 use structopt::StructOpt;
+use rand::Rng;
 
 //TODO: エラーを実装する
 #[derive(StructOpt, Debug)]
@@ -16,10 +17,10 @@ enum Opt {
     Rot {
         /// available modes: enc, dec
         mode: String,
-        // key for cipher
-        key: u8,
         /// text to encrypt/decrypt
         text: String,
+        // key for cipher
+        key: Option<u8>,
     },
 }
 
@@ -34,11 +35,14 @@ fn main() {
                 unimplemented!("error: unavailable mode");
             }
         }
-        Opt::Rot { mode, key, text } => {
+        Opt::Rot { mode, text , key} => {
+            let mut rng: rand::prelude::ThreadRng = rand::thread_rng();
+            let final_key:u8=key.unwrap_or(rng.gen_range(1..26));
+            
             if mode == "enc" {
-                println!("Result: {}", algorithms::rot::encrypt(key, text));
+                println!("Result: {}", algorithms::rot::encrypt(final_key, text));
             } else if mode == "dec" {
-                println!("Result: {}", algorithms::rot::decrypt(key, text));
+                println!("Result: {}", algorithms::rot::decrypt(final_key, text));
             } else {
                 unimplemented!("error: unavailable mode");
             }
