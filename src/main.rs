@@ -25,14 +25,14 @@ enum Opt {
         key: Option<u8>,
     },
     /// vigenère cipher
-    Vigenere{
+    Vigenere {
         /// available modes: enc, dec
         mode: String,
         /// text to encrypt/decrypt
         text: String,
         /// key for cipher. automatically generates random key when not specified
-        key: Option<String>
-    }
+        key: Option<String>,
+    },
 }
 
 fn main() {
@@ -78,36 +78,36 @@ fn main() {
         }
         // Vigenere cipher
         Opt::Vigenere { mode, text, key } => {
-            if mode=="enc" {
-                let mut final_key:String;
-                if key==None{
+            if mode == "enc" {
+                let mut final_key: String;
+                if key == None {
                     // generate key
                     let mut rng: rand::prelude::ThreadRng = rand::thread_rng();
-                    
-                    let key_length:i32=rng.gen_range(1..=10);
-                    final_key=String::new();
-                    for _ in 0..key_length{
-                        let rand:u8=rng.gen_range(65..=90);
-                        let next_key:&str=&(rand as char).to_string();
-                        final_key+=next_key;
+
+                    let key_length: i32 = rng.gen_range(1..=10);
+                    final_key = String::new();
+                    for _ in 0..key_length {
+                        let rand: u8 = rng.gen_range(65..=90);
+                        let next_key: &str = &(rand as char).to_string();
+                        final_key += next_key;
                     }
-                }else{
+                } else {
                     // when key is specified
-                    final_key=key.unwrap().to_uppercase();
+                    final_key = key.unwrap().to_uppercase();
                 }
                 // encrypt
-                let cipher_text: String=algorithms::vigenere::encrypt(final_key.clone(),text);
+                let cipher_text: String = algorithms::vigenere::encrypt(final_key.clone(), text);
                 // output
-                println!("Key: {}",final_key);
+                println!("Key: {}", final_key);
                 println!("Result: {}", cipher_text);
-            } else if mode=="dec"{
+            } else if mode == "dec" {
                 // decrypt
-                let final_key=key.unwrap().to_uppercase();
-                let plain_text: String = algorithms::vigenere::decrypt(final_key.clone(),text);
+                let final_key = key.unwrap().to_uppercase();
+                let plain_text: String = algorithms::vigenere::decrypt(final_key.clone(), text);
                 // output
                 println!("Key: {}", final_key);
                 println!("Result: {}", plain_text);
-            }else{
+            } else {
                 // when mode is not `enc` or `dec`
                 unimplemented!("error: unavailable mode");
             }
