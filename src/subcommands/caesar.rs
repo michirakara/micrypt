@@ -6,13 +6,13 @@ pub fn caesar(mode: CmdMode, text: String) {
     match mode {
         CmdMode::Enc => {
             // encrypt
-            let cipher_text: Vec<u8> = algorithms::caesar::encrypt(vec_text);
+            let cipher_text: Vec<u8> = algorithms::caesar::encrypt(&vec_text);
             // output
             println!("Result: {}", convert::vec_to_string(cipher_text));
         }
         CmdMode::Dec => {
             // decrypt
-            let plain_text: Vec<u8> = algorithms::caesar::decrypt(vec_text);
+            let plain_text: Vec<u8> = algorithms::caesar::decrypt(&vec_text);
             // output
             println!("Result: {}", convert::vec_to_string(plain_text));
         }
